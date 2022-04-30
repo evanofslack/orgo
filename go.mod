@@ -1,4 +1,4 @@
-module orgo
+module "github.com/evanofslack/orgo"
 
 go 1.18
 

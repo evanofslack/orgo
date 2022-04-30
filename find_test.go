@@ -1,4 +1,4 @@
-package main
+package orgo
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ func TestCreateDir(t *testing.T) {
 	}
 
 	// test createDir function
-	err = createDir(newDirName)
+	err = CreateDir(newDirName)
 	if err != nil {
 		t.Errorf("error creating directory")
 	}
@@ -81,7 +81,7 @@ func TestFindFiles(t *testing.T) {
 
 	t.Run("find correct files", func(t *testing.T) {
 		match_ext := []string{".txt", ".png", ".pdf", ".jpeg"}
-		matches := findFiles(fsys, match_ext)
+		matches := FindFiles(fsys, match_ext)
 		want_length := 4
 		if len(matches) != want_length {
 			errMsg := fmt.Sprintf("Wanted %d matches, got %d", want_length, len(matches))
@@ -95,7 +95,7 @@ func TestFindFiles(t *testing.T) {
 	})
 	t.Run("do not find incorrect files", func(t *testing.T) {
 		match_ext := []string{".nope", ".fake"}
-		matches := findFiles(fsys, match_ext)
+		matches := FindFiles(fsys, match_ext)
 		want_length := 0
 		if len(matches) != want_length {
 			errMsg := fmt.Sprintf("Wanted %d matches, got %d", want_length, len(matches))
@@ -112,7 +112,7 @@ func TestFindFiles(t *testing.T) {
 func TestMoveFiles(t *testing.T) {
 	const newDirName string = "test_directory"
 
-	err := createDir(newDirName)
+	err := CreateDir(newDirName)
 	if err != nil {
 		t.Errorf("failed to make output dir")
 	}
@@ -130,7 +130,7 @@ func TestMoveFiles(t *testing.T) {
 		}
 	}
 
-	err = moveFiles(inFiles, newDirName)
+	err = MoveFiles(inFiles, newDirName)
 	if err != nil {
 		fmt.Println(err)
 		t.Errorf("failed to move files")

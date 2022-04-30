@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/evanofslack/orgo"
 )
 
 func main() {
@@ -23,7 +25,7 @@ func main() {
 
 	fmt.Println("Cleaning up...")
 
-	createDir(destination)
-	files := findFiles(os.DirFS(root), extensions)
-	moveFiles(files, "./"+destination)
+	orgo.CreateDir(destination)
+	files := orgo.FindFiles(os.DirFS(root), extensions)
+	orgo.MoveFiles(files, "./"+destination)
 }
