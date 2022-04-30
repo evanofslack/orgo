@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/fs"
 	"log"
 	"os"
@@ -50,14 +49,13 @@ func findFilesRecursive(fsys fs.FS, extensions []string) []string {
 }
 
 // moveFiles moves all input files to provided directory
-func moveFiles(inFiles []string, outDir string) {
+func moveFiles(inFiles []string, outDir string) error {
 	for _, f := range inFiles {
-		// path := "./screenshots/" + f
 		path := outDir + "/" + f
-		fmt.Println(path)
 		err := os.Rename(f, path)
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
 	}
+	return nil
 }
