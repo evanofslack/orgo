@@ -1,3 +1,5 @@
 module orgo
 
-go 1.16
+go 1.18
+
+require golang.org/x/exp v0.0.0-20220428152302-39d4317da171
