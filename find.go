@@ -9,12 +9,13 @@ import (
 )
 
 // createDir creates a directory with with input name
-func createDir(name string) {
+func createDir(name string) error {
 	path := filepath.Join(".", name)
 	err := os.MkdirAll(path, os.ModePerm)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
+	return nil
 }
 
 // findFiles returns all paths of files matching extensions in top level dir
