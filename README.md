@@ -9,16 +9,18 @@ clone this repo
 git clone https://github.com/evanofslack/orgo
 ```
 
-navigate into the directory
+navigate into the cmd directory
 ```bash
-cd orgo
+cd orgo/cmd/orgo
 ```
 
-build the executable
+install the executable
 
 ```bash
-go build 
+go install
 ```
+
+the executable will now be available in your `$GOPATH` 
 
 ### Usage
 
