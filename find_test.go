@@ -109,6 +109,56 @@ func TestFindFiles(t *testing.T) {
 	})
 }
 
+func TestFindFilesRecursive(t *testing.T) {
+	fsys := fstest.MapFS{
+
+		// files we want to find
+		"file_1.txt":             {},
+		"file_2.png":             {},
+		"file_3.pdf":             {},
+		"file_4.jpeg":            {},
+		"dir_1/file_5.txt":       {},
+		"dir_1/dir_2/file_6.png": {},
+
+		// files we do not want to find
+		"file_7.csv":              {},
+		"file_8.cpp":              {},
+		"file_9.go":               {},
+		"file_10.js":              {},
+		"dir_1/file_11.csv":       {},
+		"dir_1/dir_2/file_12.cpp": {},
+	}
+
+	t.Run("find correct files", func(t *testing.T) {
+		match_ext := []string{".txt", ".png", ".pdf", ".jpeg"}
+		matches := findFilesRecursive(fsys, match_ext)
+		want_length := 6
+		if len(matches) != want_length {
+			errMsg := fmt.Sprintf("Wanted %d matches, got %d", want_length, len(matches))
+			t.Errorf(errMsg)
+		}
+		want_matches := []string{"dir_1/dir_2/file_6.png", "dir_1/file_5.txt", "file_1.txt", "file_2.png", "file_3.pdf", "file_4.jpeg"}
+		if !slices.Equal(matches, want_matches) {
+			errMsg := fmt.Sprintf("Wanted %s , got %s", want_matches, matches)
+			t.Errorf(errMsg)
+		}
+	})
+	t.Run("do not find incorrect files", func(t *testing.T) {
+		match_ext := []string{".nope", ".fake"}
+		matches := FindFiles(fsys, match_ext)
+		want_length := 0
+		if len(matches) != want_length {
+			errMsg := fmt.Sprintf("Wanted %d matches, got %d", want_length, len(matches))
+			t.Errorf(errMsg)
+		}
+		want_matches := []string{}
+		if !slices.Equal(matches, want_matches) {
+			errMsg := fmt.Sprintf("Wanted %s , got %s", want_matches, matches)
+			t.Errorf(errMsg)
+		}
+	})
+}
+
 func TestMoveFiles(t *testing.T) {
 	const newDirName string = "test_directory"
 
