@@ -169,16 +169,18 @@ func TestMoveFiles(t *testing.T) {
 
 	// Create temp files
 	inFiles := []string{"file_1.txt", "file_2.png", "file_3.pdf", "file_4.jpeg"}
-	for _, f := range inFiles {
-		_, err := os.Stat(f)
-		if os.IsNotExist(err) {
-			file, err := os.Create(f)
-			if err != nil {
-				log.Fatal(err)
+	func() {
+		for _, f := range inFiles {
+			_, err := os.Stat(f)
+			if os.IsNotExist(err) {
+				file, err := os.Create(f)
+				if err != nil {
+					log.Fatal(err)
+				}
+				defer file.Close()
 			}
-			defer file.Close()
 		}
-	}
+	}()
 
 	err = MoveFiles(inFiles, newDirName)
 	if err != nil {
